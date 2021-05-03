@@ -7,8 +7,8 @@
 using namespace std;
 
 /**
- * Runtime: 1252ms (Beat 16.42%)
- * Memory Usage: 266.1MB (Beat 18.87%)
+ * Runtime: 216ms (Beat 65.69%)
+ * Memory Usage: 57.2MB (Beat 57.11%)
  */
 class Solution
 {
@@ -19,7 +19,7 @@ public:
 
         // Q: Is it ok to sort in place? - We can make a shalow-copy
         sort(courses.begin(), courses.end(),
-             [](vector<int> lhs, vector<int> rhs) { return lhs[1] < rhs[1]; });
+             [](vector<int> &lhs, vector<int> &rhs) { return lhs[1] < rhs[1]; });
 
         // pair<duration, index>
         std::priority_queue<pair<int, int>> takens;
