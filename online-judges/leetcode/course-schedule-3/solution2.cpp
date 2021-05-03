@@ -7,8 +7,8 @@
 using namespace std;
 
 /**
- * Runtime: 216ms (Beat 65.69%)
- * Memory Usage: 57.2MB (Beat 57.11%)
+ * Runtime: 208ms (Beat 77.21%)
+ * Memory Usage: 56.1MB (Beat 86.52%)
  */
 class Solution
 {
@@ -21,8 +21,8 @@ public:
         sort(courses.begin(), courses.end(),
              [](vector<int> &lhs, vector<int> &rhs) { return lhs[1] < rhs[1]; });
 
-        // pair<duration, index>
-        std::priority_queue<pair<int, int>> takens;
+        // Keep track of the duration of the courses that plan to take
+        std::priority_queue<int> takens;
 
         int totalTime = 0;
         for (int i = 0; i < courses.size(); i++) {
@@ -32,7 +32,7 @@ public:
             if (totalTime + duration <= lastDay) {
                 // NOTE: This makes a copy - can change to vector<int>
                 totalTime += duration;
-                takens.push(make_pair(duration, i));
+                takens.push(duration);
                 continue;
             }
             
@@ -41,10 +41,10 @@ public:
             }
 
             // Swap the current course with the longest courses
-            if (takens.top().first > duration) {
-                totalTime += duration - takens.top().first;
+            if (takens.top() > duration) {
+                totalTime += duration - takens.top();
                 takens.pop();
-                takens.push(make_pair(duration, i));
+                takens.push(duration);
             }
         }
         return takens.size();
