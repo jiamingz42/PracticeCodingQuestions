@@ -21,13 +21,11 @@ public:
         sort(courses.begin(), courses.end(),
              [](vector<int> lhs, vector<int> rhs) { return lhs[1] < rhs[1]; });
 
-        int n = courses.size();
-        
         // pair<duration, index>
         std::priority_queue<pair<int, int>> takens;
 
         int totalTime = 0;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < courses.size(); i++) {
             int duration = courses[i][0];
             int lastDay = courses[i][1];
             
