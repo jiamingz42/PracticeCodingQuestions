@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <iostream>
 #include <unordered_set>
+#include <queue>
 
 using namespace std;
 
@@ -18,7 +19,8 @@ public:
 
         int n = courses.size();
         
-        unordered_set<int> takens;
+        // pair<duration, index>
+        std::priority_queue<pair<int, int>> takens;
 
         int totalTime = 0;
         for (int i = 0; i < n; i++) {
@@ -28,30 +30,19 @@ public:
             if (totalTime + duration <= lastDay) {
                 // NOTE: This makes a copy - can change to vector<int>
                 totalTime += duration;
-                takens.insert(i);
+                takens.push(make_pair(duration, i));
                 continue;
             }
             
             if (takens.size() == 0) {
                 continue;
             }
-            
-            int maxIndex = -1;
-            for (int taken : takens) {
-                if (maxIndex == -1) {
-                    maxIndex = taken;
-                    continue;
-                } 
-                if (courses[taken][0] > courses[maxIndex][0]) {
-                    maxIndex = taken;
-                }
-            }
-            
+
             // Swap the current course with the longest courses
-            if (courses[maxIndex][0] > duration) {
-                totalTime += duration - courses[maxIndex][0];
-                takens.erase(maxIndex);
-                takens.insert(i);
+            if (takens.top().first > duration) {
+                totalTime += duration - takens.top().first;
+                takens.pop();
+                takens.push(make_pair(duration, i));
             }
         }
         return takens.size();
