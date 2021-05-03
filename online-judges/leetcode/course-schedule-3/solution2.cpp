@@ -6,6 +6,10 @@
 
 using namespace std;
 
+/**
+ * Runtime: 1252ms (Beat 16.42%)
+ * Memory Usage: 266.1MB (Beat 18.87%)
+ */
 class Solution
 {
 public:
