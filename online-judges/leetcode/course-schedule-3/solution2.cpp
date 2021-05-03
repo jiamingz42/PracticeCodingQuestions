@@ -7,7 +7,7 @@
 using namespace std;
 
 /**
- * Runtime: 208ms (Beat 77.21%)
+ * Runtime: 188ms (Beat 94.85%)
  * Memory Usage: 56.1MB (Beat 86.52%)
  */
 class Solution
@@ -36,12 +36,8 @@ public:
                 continue;
             }
             
-            if (takens.size() == 0) {
-                continue;
-            }
-
             // Swap the current course with the longest courses
-            if (takens.top() > duration) {
+            if (takens.size() && takens.top() > duration) {
                 totalTime += duration - takens.top();
                 takens.pop();
                 takens.push(duration);
