@@ -8,7 +8,7 @@ using namespace std;
 class Solution {
 public:
     int jump(vector<int>& nums) {
-        if (nums.size() <= 1) {
+        if (nums.size() == 0) {
             return nums.size();
         }
 
