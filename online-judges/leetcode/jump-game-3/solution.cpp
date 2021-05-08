@@ -1,4 +1,3 @@
-// Error
 class Solution {
 public:
     bool canReach(vector<int>& arr, int start) {
@@ -21,7 +20,7 @@ public:
             }
             
             int k = i + arr[i];
-            if (k < arr.size() && visited.find(j) == visited.end()) {
+            if (k < arr.size() && visited.find(k) == visited.end()) {
                 visited.insert(k);
                 q.push(k);
             }
