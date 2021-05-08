@@ -1,3 +1,5 @@
+// This misses an edge case
+// arr = [0], start = 0
 class Solution {
 public:
     bool canReach(vector<int>& arr, int start) {
@@ -9,18 +11,21 @@ public:
         
         while (!q.empty()) {
             int i = q.front(); q.pop();
-            if (arr[i] == 0) {
-                return true;
-            }
             
             int j = i - arr[i];
             if (j >= 0 && visited.find(j) == visited.end()) {
+                if (arr[j] == 0) {
+                    return true;
+                }
                 visited.insert(j);
                 q.push(j);
             }
             
             int k = i + arr[i];
             if (k < arr.size() && visited.find(k) == visited.end()) {
+                if (arr[k] == 0) {
+                    return true;
+                }
                 visited.insert(k);
                 q.push(k);
             }
