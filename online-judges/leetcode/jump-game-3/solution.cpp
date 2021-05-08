@@ -1,8 +1,8 @@
 class Solution {
 public:
     bool canReach(vector<int>& arr, int start) {
-        unordered_set<int> visited;
-        visited.insert(start);
+        vector<bool> visited(arr.size(), false);
+        visited[start] = true;
         
         queue<int> q;
         q.push(start);
@@ -14,20 +14,20 @@ public:
             }
             
             int j = i - arr[i];
-            if (j >= 0 && visited.find(j) == visited.end()) {
+            if (j >= 0 && !visited[j]) {
                 if (arr[j] == 0) {
                     return true;
                 }
-                visited.insert(j);
+                visited[j] = true;
                 q.push(j);
             }
             
             int k = i + arr[i];
-            if (k < arr.size() && visited.find(k) == visited.end()) {
+            if (k < arr.size() && !visited[k]) {
                 if (arr[k] == 0) {
                     return true;
                 }
-                visited.insert(k);
+                visited[k] = true;
                 q.push(k);
             }
         }
