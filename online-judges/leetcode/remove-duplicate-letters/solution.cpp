@@ -1,4 +1,7 @@
+#include <iostream>
 #include <unordered_map>
+#include <unordered_set>
+#include <deque>
 #include <sstream>
 #include <string>
 
@@ -7,43 +10,52 @@ using namespace std;
 class Solution {
 public:
     string removeDuplicateLetters(string s) {
-        unordered_map<char, int> counter;
-        for (const char ch : s) {
-            counter[ch]++;
-        }
+        unordered_set<char> seen;
+        seen.reserve(26);
         
-        bool added[26];
-        for (int i = 0; i < 26; i++) {
-            added[i] = false;
-        }
+        deque<int> lastPositions;
         
-        ostringstream ss;
-        
-        int min_char_i = 0;
-        while (min_char_i < s.size()) {
-            for (int i = min_char_i; i < s.size(); i++) {
-                char ch = s[i];
-                if (added[ch-'a']) {
-                    if (min_char_i == i) min_char_i++;
-                    continue;
-                }
-
-                // strictly smaller than so if there are multiple occurence of the smallest char, the leftmost one is used
-                if (ch < s[min_char_i]) {
-                    min_char_i = i;
-                }
-                if (--counter[ch] == 0) {
-                    ss << s[min_char_i];
-                    added[s[min_char_i]-'a'] = true;
-                    min_char_i++;
-                    for (int j = min_char_i; j <= i; j++) {
-                        counter[s[j]]++;
-                    }
-                    break;
-                }
+        for (int i = s.size()-1; i >= 0; i--) {
+            char ch = s[i];
+            // Ensures both seen.count(...) and seen.insert(...) are operating on `ch`
+            if (!seen.count(ch)) {
+                lastPositions.push_front(i);
+                seen.insert(ch);
             }
         }
         
-        return ss.str();
+        ostringstream oss;
+        unordered_set<char> added;
+        seen.reserve(26);
+
+        int start = 0;
+        while (!lastPositions.empty()) {
+            char smallest_char_i = start;
+            for (int i = start+1; i <= lastPositions.front(); i++) {
+                if (added.count(s[i])) {
+                    continue;
+                }
+                if (s[i] < s[smallest_char_i]) {
+                    smallest_char_i = i;
+                }
+            }
+            
+            char smallest_char = s[smallest_char_i];
+            oss << smallest_char;
+            added.insert(smallest_char);
+            
+            start = smallest_char_i+1;
+            
+            while (!lastPositions.empty() && added.count(s[lastPositions.front()])) {
+                lastPositions.pop_front();
+            }
+        }
+        
+        return oss.str();
     }
 };
+
+int main() {
+    Solution s;
+    cout << "ans = " << s.removeDuplicateLetters("cdadabcc") << endl;
+}
