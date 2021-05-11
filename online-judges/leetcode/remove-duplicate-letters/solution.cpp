@@ -1,3 +1,9 @@
+#include <unordered_map>
+#include <sstream>
+#include <string>
+
+using namespace std;
+
 class Solution {
 public:
     string removeDuplicateLetters(string s) {
